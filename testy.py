@@ -67,11 +67,14 @@ def get_coordinates(address):
     # Nominatim geocoding API
     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
     response = requests.get(geocode_api_url)
+
     if response.status_code == 200:
         results = response.json()
         if results:
-            lat = results[0]["lat"]
-            lng = results[0]["lon"]
+            # lat = results[0]["lat"]
+            # lng = results[0]["lon"]
+            lat = float(results[0]["lat"])
+            lng = float(results[0]["lon"])
             return lat, lng
         else:
             st.error("Ingen adress hittades. Vänligen kontrollera och försök igen.")

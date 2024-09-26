@@ -66,7 +66,9 @@ def get_parking_data(app_id, latitude, longitude, radius, format, type_of_parkin
 
 def get_coordinates(address, retries=3):
     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
+
     for attempt in range(retries):
+        time.sleep(1)
         response = requests.get(geocode_api_url)
         
         if response.status_code == 200:

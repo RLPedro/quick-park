@@ -69,9 +69,13 @@ def get_coordinates(address, retries=3):
     encoded_address = urllib.parse.quote(address)
     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
 
+    headers = {
+        'User-Agent': 'quick-park'
+    }
+
     for attempt in range(retries):
         time.sleep(1)
-        response = requests.get(geocode_api_url)
+        response = requests.get(geocode_api_url, headers=headers)
 
         st.write(geocode_api_url)
         st.write(response)

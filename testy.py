@@ -6,7 +6,8 @@ import time
 import urllib.parse
 
 # Set page configuration (only once)
-st.set_page_config(page_title="QuickPark", page_icon="🌍", layout="wide")
+st.set_page_config(page_title="QuickPark", page_icon="🅿️", layout="wide")
+
 # Inject custom CSS for a softer baby blue background, black text, and improved styling for input fields
 st.markdown(
     """

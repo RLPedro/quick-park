@@ -3,6 +3,7 @@ import requests
 import folium
 from streamlit_folium import folium_static
 import time
+import urllib.parse
 
 # Set page configuration (only once)
 st.set_page_config(page_title="QuickParking", page_icon="🌍", layout="wide")
@@ -65,6 +66,7 @@ def get_parking_data(app_id, latitude, longitude, radius, format, type_of_parkin
         return None
 
 def get_coordinates(address, retries=3):
+    encoded_address = urllib.parse.quote(address)
     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
 
     for attempt in range(retries):

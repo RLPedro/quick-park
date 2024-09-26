@@ -70,6 +70,9 @@ def get_coordinates(address, retries=3):
     for attempt in range(retries):
         time.sleep(1)
         response = requests.get(geocode_api_url)
+
+        st.write(geocode_api_url)
+        st.write(response)
         
         if response.status_code == 200:
             results = response.json()

@@ -104,12 +104,12 @@ format = 'JSON'
 
 # Typer av parkering
 types_of_parking = {
-    'Handicap parking': 'HandicapParkings',
-    'Motorcycle parking': 'MCParkings',
-    'Truck parking': 'TruckParkings',
     'Street parkings': 'PublicTimeParkings',
     'Parking garages': 'PrivateTollParkings',
-    'Residential parkings': 'ResidentialParkings'
+    'Residential parkings': 'ResidentialParkings',
+    'Motorcycle parking': 'MCParkings',
+    'Truck parking': 'TruckParkings',
+    'Handicap parking': 'HandicapParkings',
 }
 
 # Välj typ av parkering

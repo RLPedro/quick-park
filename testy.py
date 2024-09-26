@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import folium
 from streamlit_folium import folium_static
+import time
 
 # Set page configuration (only once)
 st.set_page_config(page_title="QuickParking", page_icon="🌍", layout="wide")
@@ -63,25 +64,47 @@ def get_parking_data(app_id, latitude, longitude, radius, format, type_of_parkin
         st.error(f"Error fetching data: {e}")
         return None
 
-def get_coordinates(address):
-    # Nominatim geocoding API
+def get_coordinates(address, retries=3):
     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
-    response = requests.get(geocode_api_url)
-
-    if response.status_code == 200:
-        results = response.json()
-        if results:
-            # lat = results[0]["lat"]
-            # lng = results[0]["lon"]
-            lat = float(results[0]["lat"])
-            lng = float(results[0]["lon"])
-            return lat, lng
+    for attempt in range(retries):
+        response = requests.get(geocode_api_url)
+        
+        if response.status_code == 200:
+            results = response.json()
+            if results:
+                lat = float(results[0]["lat"])
+                lng = float(results[0]["lon"])
+                return lat, lng
+            else:
+                st.error("Ingen adress hittades. Vänligen kontrollera och försök igen.")
+                return None, None
         else:
-            st.error("Ingen adress hittades. Vänligen kontrollera och försök igen.")
-            return None, None
-    else:
-        st.error("Fel vid anrop till geokodningstjänsten.")
-        return None, None
+            st.warning(f"Försök {attempt + 1} misslyckades. Försöker igen...")
+            time.sleep(1)  # Wait 1 second before retrying
+
+    st.error("Fel vid anrop till geokodningstjänsten.")
+    return None, None
+
+
+# def get_coordinates(address):
+#     # Nominatim geocoding API
+#     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
+#     response = requests.get(geocode_api_url)
+
+#     if response.status_code == 200:
+#         results = response.json()
+#         if results:
+#             # lat = results[0]["lat"]
+#             # lng = results[0]["lon"]
+#             lat = float(results[0]["lat"])
+#             lng = float(results[0]["lon"])
+#             return lat, lng
+#         else:
+#             st.error("Ingen adress hittades. Vänligen kontrollera och försök igen.")
+#             return None, None
+#     else:
+#         st.error("Fel vid anrop till geokodningstjänsten.")
+#         return None, None
 
 # API ID och initiala positioner
 api_id = '07e7edee-b61e-4252-920d-74e9d4b3091e'

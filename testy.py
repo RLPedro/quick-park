@@ -6,7 +6,7 @@ import time
 import urllib.parse
 
 # Set page configuration (only once)
-st.set_page_config(page_title="QuickParking", page_icon="🌍", layout="wide")
+st.set_page_config(page_title="QuickPark", page_icon="🌍", layout="wide")
 # Inject custom CSS for a softer baby blue background, black text, and improved styling for input fields
 st.markdown(
     """
@@ -76,9 +76,6 @@ def get_coordinates(address, retries=3):
     for attempt in range(retries):
         time.sleep(1)
         response = requests.get(geocode_api_url, headers=headers)
-
-        st.write(geocode_api_url)
-        st.write(response)
         
         if response.status_code == 200:
             results = response.json()
@@ -96,26 +93,6 @@ def get_coordinates(address, retries=3):
     st.error("Fel vid anrop till geokodningstjänsten.")
     return None, None
 
-
-# def get_coordinates(address):
-#     # Nominatim geocoding API
-#     geocode_api_url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json"
-#     response = requests.get(geocode_api_url)
-
-#     if response.status_code == 200:
-#         results = response.json()
-#         if results:
-#             # lat = results[0]["lat"]
-#             # lng = results[0]["lon"]
-#             lat = float(results[0]["lat"])
-#             lng = float(results[0]["lon"])
-#             return lat, lng
-#         else:
-#             st.error("Ingen adress hittades. Vänligen kontrollera och försök igen.")
-#             return None, None
-#     else:
-#         st.error("Fel vid anrop till geokodningstjänsten.")
-#         return None, None
 
 # API ID och initiala positioner
 api_id = '07e7edee-b61e-4252-920d-74e9d4b3091e'
@@ -160,7 +137,6 @@ else:
     parking_data = None
 
 # Skapa Folium-karta centrerad på Göteborg
-# gothenburg_map = folium.Map(location=[57.7, 11.97], zoom_start=13)
 gothenburg_map = folium.Map(location=[latitude, longitude], zoom_start=13)
 
 cost = '10 kronor'
